@@ -47,7 +47,7 @@ function localAxios() {
 
                     // 에러가 발생했던 컴포넌트의 axios로 이동하고자하는 경우
                     // 반드시 return을 붙여주어야한다.
-                    return await instance.post("/user/refresh").then((response) => {
+                    return await instance.post("/users/refresh").then((response) => {
                         const newAccessToken = response.data.Authorization;
 
                         instance.defaults.headers.common["Authorization"] = newAccessToken;

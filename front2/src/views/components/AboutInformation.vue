@@ -22,10 +22,12 @@ import CenteredBlogCard from "@/examples/cards/blogCards/CenteredBlogCard.vue";
                     </div>
                 </div>
                 <div class="col-lg-4 ms-auto mt-lg-0 mt-6 py-1">
+                    <a href="https://enterprise.kt.com/pd/P_PD_AI_BD_001.do" target="_blank">
                     <CenteredBlogCard
                         image="https://www.techm.kr/news/photo/202405/124313_159959_3931.jpg"
                         description="대한민국 통신과 ICT 산업을 이끌어온 기업, KT는 언제나 고객과 가장 가까운 곳에서 함께 해왔습니다." />
-                </div>
+                </a>
+                    </div>
             </div>
         </div>
     </section>
