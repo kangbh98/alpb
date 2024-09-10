@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 // @RequestMapping(value="/users")
 @Transactional
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired

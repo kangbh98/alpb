@@ -1,12 +1,13 @@
 package alpb.service;
 
-import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import alpb.domain.User;
 import alpb.domain.UserRepository;
 
+@Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
