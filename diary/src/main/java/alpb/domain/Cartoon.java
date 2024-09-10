@@ -83,6 +83,10 @@ public class Cartoon {
         */
 
     }
+
+    public Cartoon(java.sql.Date date2, int userIdx2, String imageUrl2, String comment2) {
+        //TODO Auto-generated constructor stub
+    }
     //>>> Clean Arch / Port Method
 
 }

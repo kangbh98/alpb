@@ -64,6 +64,8 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
+openai-ke: asdf
+
 api:
   url: 
     diary: localhost:8085 

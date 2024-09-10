@@ -1,6 +1,9 @@
 package alpb.infra;
 
 import alpb.domain.*;
+
+import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,15 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 //<<< Clean Arch / Inbound Adaptor
 
 @RestController
-// @RequestMapping(value="/cartoons")
+@RequestMapping(value="/cartoons")
 @Transactional
 public class CartoonController {
 
     @Autowired
     CartoonRepository cartoonRepository;
+    @Autowired
+    CartoonService cartoonService;
+
+    @PostMapping("/create/diary")
+    public String postImage(@RequestParam int userIdx, @RequestParam Date date,@RequestParam String comment) {
+
+        String s = cartoonService.makePrompt(comment);
+        String imageUrl = cartoonService.openAiImageUrl(s);
+        Cartoon cartoon = new Cartoon(date,userIdx,imageUrl,comment);
+        cartoonService.createCartoon(cartoon);
+        return imageUrl;
+    }
+
+    @GetMapping("/get/diary")
+    public Cartoon getCartoon(@RequestParam int userIdx, @RequestParam Date date) {
+        return cartoonService.getCartoon(userIdx, date);
+    }
+
+
 
     @RequestMapping(
-        value = "/cartoons/{id}//deletecartoon",
+        value = "/{id}//deletecartoon",
         method = RequestMethod.PUT,
         produces = "application/json;charset=UTF-8"
     )
