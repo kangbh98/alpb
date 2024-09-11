@@ -61,6 +61,33 @@ public class UserController {
        }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+    
+    @GetMapping("/info/{userIdx}")
+    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("userIdx") Long userIdx, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
+            try {
+//				로그인 사용자 정보.
+                User user = userService.getUserByUserIdx(userIdx);
+                resultMap.put("userInfo", user);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                resultMap.put("message", e.getMessage());
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+        else {
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<?> deleteUser(User user){
+        userService.deleteUser(user.getUserIdx());
+        return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
+    }
 
 }
 //>>> Clean Arch / Inbound Adaptor

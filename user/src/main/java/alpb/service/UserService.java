@@ -20,4 +20,13 @@ public class UserService {
             return user.getUserIdx();
         }
     }
+
+    public User getUserByUserIdx(Long userIdx) {
+        return userRepository.findByUserIdx(userIdx);
+    }
+
+    public void deleteUser(Long userIdx) {
+        userRepository.deleteByUserIdx(userIdx);
+    }
+
 }
