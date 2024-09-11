@@ -4,6 +4,8 @@ import LoginView from "../views/User/LoginView.vue";
 import SignUpView from "../views/User/SignUpView.vue";
 import DestinationView from "../views/Destination/DestinationView.vue";
 import PlanView from "../views/Plan/PlanView.vue";
+import CheckCredit from "@/views/Credit/CheckCredit.vue";
+import OrderCredit from "@/views/Credit/OrderCredit.vue";
 
 
 const router = createRouter({
@@ -35,7 +37,16 @@ const router = createRouter({
             name: "plan",
             component: PlanView,
         },
-
+        {
+            path: "/check/credit",
+            name: "checkcredit",
+            component: CheckCredit,
+        },
+        {
+            path: "/order/credit",
+            name: "ordercredit",
+            component: OrderCredit,
+        },
     ],
 });
 
