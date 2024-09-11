@@ -107,7 +107,7 @@
                 <div class="pt-2 text-secondary">종합의견</div>
                 <div class="py-2">
                     <h6>Great place to trip I really Love this place</h6>
-                </div>
+                </div>5
             </div>
         </div>
         <div class="py-1 bg-secondary"></div>

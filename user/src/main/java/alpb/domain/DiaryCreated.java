@@ -11,7 +11,7 @@ public class DiaryCreated extends AbstractEvent {
 
     private Long diaryId;
     private Date date;
-    private Integer userIdx;
+    private Long userIdx;
     private String imageUrl;
     private String comment;
 }

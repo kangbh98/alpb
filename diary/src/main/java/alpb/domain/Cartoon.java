@@ -21,7 +21,7 @@ public class Cartoon {
 
     private Date date;
 
-    private Integer userIdx;
+    private Long userIdx;
 
     private String imageUrl;
 

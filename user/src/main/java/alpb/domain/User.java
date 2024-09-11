@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
 import lombok.Data;
 
 @Entity
@@ -17,6 +21,7 @@ import lombok.Data;
 @Data
 //<<< DDD / Aggregate Root
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,6 +93,7 @@ public class User {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
+    @Transactional
     public static void creditDecrease(DiaryCreated diaryCreated) {
         //implement business logic here:
 
@@ -98,19 +104,19 @@ public class User {
         CreditDecreased creditDecreased = new CreditDecreased(user);
         creditDecreased.publishAfterCommit();
         */
+        User user = userRepository.findByUserIdx(userIdx);
+        if (user != null) {
+            user.setCredit(user.getCredit() - 1);
+            userRepository.save(user);
+        }
 
-        /** Example 2:  finding and process
-        
-        repository().findById(diaryCreated.get???()).ifPresent(user->{
+        // User user = repository().findById(diaryCreated.getUserIdx())
+
             
-            user // do something
-            repository().save(user);
+        //     user.setCredit(user.getCredit()-1);
+        //     repository().saveUser(user);
 
-            CreditDecreased creditDecreased = new CreditDecreased(user);
-            creditDecreased.publishAfterCommit();
-
-         });
-        */
+        //  });
 
     }
     //>>> Clean Arch / Port Method
