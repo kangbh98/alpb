@@ -297,3 +297,13 @@
         [![5.png](https://i.postimg.cc/bwSjmVrF/5.png)](https://postimg.cc/bZPMJTQQ)
         
         [![6.png](https://i.postimg.cc/qR4VMkL9/6.png)](https://postimg.cc/1gCYv1bH)
+
+### 🌐 배포
+
+- [![1.png](https://i.postimg.cc/L8wpYNrR/1.png)](https://postimg.cc/qNsYWXJZ) 
+  [![2.png](https://i.postimg.cc/W4ZPM0vZ/2.png)](https://postimg.cc/TyTSxLh2)
+  - front 및 user, plan , order , payment 등 서비스를 쿠버네티스를 활용해 애저 가상머신 1. 에 배포함
+  - AI 모델의 경우에는 서버 리소스가 gpu가 더 필요하는 등 추가 가상 머신을 사용하는 것이 비용에 더욱 적합할 것을 고려해 가상머신을 추가로 구축함
+  ![image](https://i.imgur.com/kfi8HGK.png)
+  ![image](https://i.imgur.com/pgQwyGT.png)
+  - 외부 서비스와 연결이 되는 diary와 review의 경우에는 kubernates의 secret 으로 등록하여야 하지만, 그 부분에 한계에 봉착해 diary와 review는 로컬 환경에 그쳤습니다..
