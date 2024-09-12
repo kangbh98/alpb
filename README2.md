@@ -103,7 +103,8 @@
 1. Diary
     - 다이어리 생성(Saga)
         - 트랜젝션 흐름
-            - 다이어리 생성 시, 사용자 서비스로 이벤트를 넘김
+            - 다이어리 생성 시, user 서비스로 카프카를 통해 Pub/Sub 방식으로 이벤트를 발행 및 이벤트를 수신함
+            - PolicyHandler에서 user aggregate 의 decrease 메소드를 호출해 크레딧을 차감함
             - 크레딧 차감이 완료되면 전체 Saga가 완료됨
                 
                 [![1.png](https://i.postimg.cc/rss1Srjx/1.png)](https://postimg.cc/0KgKvrLy)
@@ -113,8 +114,9 @@
 2. Payment
     - 결제 성공(Saga)
         - 트랜젝션 흐름
-            - 주문 이벤트 발생 시, 결제 서비스로 이벤트를 넘김
-            - 결제 성공 시, 사용자 서비스로 이벤트를 넘김
+            - 사용자가 credit에 대해서 수량을 정하고 주문을 정하면,카프카를 통해 결제 서비스로 이벤트를 발행함
+            - 결제 성공 시, 카프카를 통해 user 서비스로 이벤트를 발행함
+            - user서비스의 PolicyHandler에서 user aggregate 의 increase 메소드를 호출해 크레딧을 증가함
             - 크레딧 지급이 완료되면 전체 Saga가 완료됨
                 
                 [![3.png](https://i.postimg.cc/xjXgJw47/3.png)](https://postimg.cc/4nTpjSZb)
@@ -122,8 +124,9 @@
                 [![4.png](https://i.postimg.cc/zX0fsQJz/4.png)](https://postimg.cc/fJSZXBtp)
                 
     - 결제 취소(Compensation)
-        - 결제 실패 시 주문이 취소되고, 안내 메시지와 구매 페이지 및 홈페이지로 이동할 수 있는 버튼이 포함된 모달을 표시함
+        - 결제서비스에서 결제 실패 시 주문이 취소되고, 안내 메시지와 구매 페이지 및 홈페이지로 이동할 수 있는 버튼이 포함된 모달을 표시함
             - 현재 임의로 “주문 크레딧 개수 100개 초과 시 결제 취소” 조건을 설정해놓음
+            - 추후에는 외부 결제 모델을 연동하여 결제 성공 여부에 따라 분기를 설정할 예정
             
             [![5.png](https://i.postimg.cc/g272J6X1/5.png)](https://postimg.cc/214D9yxx)
             
@@ -132,6 +135,7 @@
             [![7.png](https://i.postimg.cc/8kbkvYfR/7.png)](https://postimg.cc/jCLr0ZX2)
 3. 사용자 예상 평점 계산 AI 모델과의 데이터통신
 	      -사용자가 카카오맵 API에서 해당 장소의 마커에 대해 조회 했을때, 백엔드를 통해 다른 Azure 가상 머신에 존재하는 AI모델과 springRestTemplate 를 활용해 데이터 통신
+        - 사용자 id 와 장소명 전송
 	 ![Image](https://ifh.cc/g/5o0yas.png)         
 
 ### 🌐 Prediction
