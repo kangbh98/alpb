@@ -110,17 +110,26 @@ export default {
         async function fetchEvents() {
             try {
                 const response = await axios.get(`https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/plans/${userInfo.value.userIdx}`);
-                const plans = response.data.planinfo;
-                events.value = plans.map(plan => ({
-                    title: `${plan.placeName} (${plan.category})`,
-                    start: plan.date && plan.time ? `${plan.date}T${plan.time}` : plan.date,
-                    allDay: !plan.time
-                }));
-                calendarOptions.value = { ...calendarOptions.value, events: events.value };
-                listOptions.value = { ...listOptions.value, events: events.value };
+                const plans = response.data.planinfo; // 올바른 변수명 사용
+                console.log('Fetched Plans:', plans); // 받아온 데이터 로그로 출력
 
+                if (plans && Array.isArray(plans)) { // plans가 배열인지 확인
+                    events.value = plans.map(plan => ({
+                        title: `${plan.placeName} (${plan.category})`, // 이벤트 제목
+                        start: plan.date && plan.time ? `${plan.date}T${plan.time}` : plan.date, // 시작 시간
+                        allDay: !plan.time // 하루 종일 여부
+                    }));
+
+                    console.log('Formatted Events:', events.value); // 변환된 이벤트 로그로 출력
+
+                    // 캘린더 옵션에 이벤트 반영
+                    calendarOptions.value = { ...calendarOptions.value, events: events.value };
+                    listOptions.value = { ...listOptions.value, events: events.value };
+                } else {
+                    console.error('Unexpected response format:', response.data);
+                }
             } catch (error) {
-                console.error('Error fetching events:');
+                console.error('Error fetching events:', error); // 오류 발생 시 로그 출력
             }
         }
 
@@ -145,7 +154,7 @@ export default {
             Swal.fire({
                 icon: "info",
                 title: "이미지 생성",
-                text: `DALL-E를 활용해 다이어리를 생성 하시겠습니까? Credit이 한 개 감소합니다. 현재 남은 크레딧 갯수: ${userInfo.value.credit}`,
+                text: "DALL-E를 활용해 다이어리를 생성 하시겠습니까?",
                 showCancelButton: true,
                 confirmButtonText: "예",
                 cancelButtonText: "아니오",
@@ -197,21 +206,13 @@ export default {
                 }
             });
             try {
-                // POST 요청의 data로 데이터를 전송하고 Content-Type을 명시적으로 설정
-                const response = await axios.post(
-                    'https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/create/diary',
-                    {
+                const response = await axios.post('https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/create/diary', null, {
+                    params: {
                         userIdx: userIdx,
                         date: date,
                         comment: comment
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
                     }
-                );
-
+                });
                 Swal.close(); // 로딩 스피너를 닫습니다.
                 if (response.status === 200) {
                     Swal.fire({

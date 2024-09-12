@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: review
-          image: "username/review:latest"
+          image: "astro7875/review:latest"
           ports:
             - containerPort: 8080
           readinessProbe:

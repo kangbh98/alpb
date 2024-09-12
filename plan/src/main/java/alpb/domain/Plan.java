@@ -4,7 +4,7 @@ import alpb.PlanApplication;
 import alpb.domain.CalendarDeleted;
 import alpb.domain.PlanAdded;
 import java.time.LocalDate;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;

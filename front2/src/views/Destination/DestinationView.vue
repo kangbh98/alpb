@@ -1,5 +1,6 @@
 <template>
     <div class="container position-sticky z-index-sticky top-0">
+        <!-- 상단 네비게이션 바 -->
         <div class="row">
             <div class="col-12">
                 <DefaultNavbar class="background" style="height: 70px; background-color: white; border-radius: 10px" />
@@ -10,42 +11,63 @@
         <KakaoMap :search-keyword="combinedKeyword" />
     </div>
     <div id="searchBox" class="card custom-search-box">
+        <!-- 검색 UI -->
         <div class="p-2">
             <div class="d-flex align-items-center">
                 <i class="fa fa-search"></i>
                 <span class="ps-2" style="font-size: 1rem">주소 검색 및 키워드 검색</span>
             </div>
             <div class="p-3 pb-2 d-flex justify-content-evenly">
+                <!-- 시도 선택 -->
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <fieldset>
                         <select v-model="selectSido" @change="onSidoChange" class="form-control form-select">
                             <option value="">시도 선택</option>
-                            <option v-for="sido in sidoList" :key="sido.sidoCode" :value="sido.sidoCode">{{ sido.sidoName }}</option>
+                            <option v-for="sido in sidoList" :key="sido.sidoCode" :value="sido.sidoCode">
+                                {{ sido.sidoName }}
+                            </option>
                         </select>
                     </fieldset>
                 </div>
+                <!-- 군구 선택 -->
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <fieldset>
                         <select v-model="selectGungu" @change="onGunguChange" class="form-control form-select">
                             <option value="">군구 선택</option>
-                            <option v-for="gungu in gunguList" :key="gungu.gunguCode" :value="gungu.gunguCode">{{ gungu.gunguName }}</option>
+                            <option v-for="gungu in gunguList" :key="gungu.gunguCode" :value="gungu.gunguCode">
+                                {{ gungu.gunguName }}
+                            </option>
                         </select>
                     </fieldset>
                 </div>
+                <!-- 동 선택 -->
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <fieldset>
                         <select v-model="selectDong" class="form-control form-select">
                             <option value="">동 선택</option>
-                            <option v-for="dong in dongList" :key="dong.dongCode" :value="dong.dongCode">{{ dong.dongName }}</option>
+                            <option v-for="dong in dongList" :key="dong.dongCode" :value="dong.dongCode">
+                                {{ dong.dongName }}
+                            </option>
                         </select>
                     </fieldset>
                 </div>
             </div>
-            <MaterialInput v-model="customKeyword" class="input-group-dynamic mb-4" icon="search" type="text" placeholder="Search" />
+            <!-- 사용자 입력 키워드 -->
+            <MaterialInput v-model="customKeyword" class="input-group-dynamic mb-4" icon="search" type="text"
+                placeholder="Search" />
+            <!-- 검색 버튼 -->
             <div class="col-md-12">
-                <MaterialButton @click="onSearchClick" type="submit" variant="gradient" color="secondary" fullWidth> 검색</MaterialButton>
+                <MaterialButton @click="onSearchClick" type="submit" variant="gradient" color="secondary" fullWidth>
+                    검색
+                </MaterialButton>
             </div>
         </div>
+    </div>
+
+    <!-- 예측 점수 표시 공간 -->
+    <div id="predictionBox" class="card prediction-box">
+        <h5 class="p-3 m-0">{{ userName }}님의 예상 평점</h5>
+        <p class="p-3">{{ userPredictionScore }}</p>
     </div>
 
     <AddToPlan v-if="modalOpen1" @close="closeModal1" />
@@ -72,7 +94,9 @@
                 </div>
             </div>
             <div class="d-flex py-2 justify-content-center">
-                <MaterialButton @click="openModal1" type="submit" variant="gradient" color="secondary"> 내 계획에 추가 </MaterialButton>
+                <MaterialButton @click="openModal1" type="submit" variant="gradient" color="secondary">
+                    내 계획에 추가
+                </MaterialButton>
             </div>
         </div>
         <div class="py-1 bg-secondary"></div>
@@ -80,38 +104,37 @@
         <div class="bg-white mb-2">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="p-3 m-0">관광객 리뷰</h5>
-                <i class="bi bi-plus-circle px-3 cursor-pointer" @click="openModal2">+</i>
+                <i class="bi bi-plus-circle px-3 cursor-pointer" @click="openModal2">
+                    +
+                </i>
             </div>
             <div class="border-top border-bottom d-flex align-items-center p-2">
                 <div class="text-secondary ps-2 pe-3">
-                    <img class="avatar rounded-circle" width="25px" src="https://th.bing.com/th/id/OIP.3X4AupAJ7GEjKFlYN-4KcwAAAA?w=400&h=400&rs=1&pid=ImgDetMain" />
+                    <img class="avatar rounded-circle" width="25px"
+                        src="https://th.bing.com/th/id/OIP.3X4AupAJ7GEjKFlYN-4KcwAAAA?w=400&h=400&rs=1&pid=ImgDetMain" />
                 </div>
             </div>
             <div class="px-3">
                 <div class="border-bottom d-flex py-2 text-danger">
                     <div class="w-25">추천점수</div>
-                    <div>{{ review.total }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">교통요건</div>
-                    <div>{{ review.traffic }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">관광환경</div>
-                    <div>{{ review.travel }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">음식환경</div>
-                    <div>{{ review.food }}</div>
                     <div></div>
                 </div>
                 <div class="pt-2 text-secondary">종합의견</div>
                 <div class="py-2">
-                    <h6>Great place to trip </h6>
-                </div>5
+                    <h6>Great place to trip I really Love this place</h6>
+                </div>
             </div>
         </div>
         <div class="py-1 bg-secondary"></div>
@@ -121,6 +144,7 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
+import axios from "axios";
 import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import KakaoMap from "@/views/Destination/KakaoMap.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
@@ -129,7 +153,14 @@ import AddToPlan from "@/views/Destination/AddToPlan.vue";
 import AddReview from "@/views/Destination/AddReview.vue";
 import { httpStatusCode } from "@/util/http-status";
 import { useMarkerStore } from "@/stores/useMarkerStore";
+import { useUserStore } from "@/stores/user"; // Pinia의 user store import
 import { storeToRefs } from "pinia";
+
+// 사용자 정보 불러오기
+const userStore = useUserStore();
+const { userInfo } = storeToRefs(userStore); // userInfo 가져오기
+
+const userName = computed(() => userInfo.value.nickname || "사용자"); // 사용자 이름을 userInfo에서 가져오기
 
 const modalOpen1 = ref(false);
 const modalOpen2 = ref(false);
@@ -146,46 +177,7 @@ const sidoList = ref([
 const gunguList = ref([]);
 const dongList = ref([]);
 const markerStore = useMarkerStore();
-
-const review = ref({
-    reviewIdx: "",
-    writerIdx: "",
-    place: "",
-    comment: "",
-    total: 0,
-    traffic: 0,
-    travel: 0,
-    food: 0,
-    createdAt: "",
-    nickname: "",
-    profileImg: "",
-    value: "",
-});
-
-// 리뷰가져오는 함수
-import { getReview } from "@/api/review";
-async function getReviewList(placeName) {
-    try {
-        const response = await getReview(placeName);
-        if (response.status === 200) {
-            review.value = response.data.reviewList;
-        }
-        review.traffic = review.value[0]?.trafficScore;
-    } catch (error) {
-        console.error("리뷰 데이터를 가져오는 중 오류 발생:", error);
-    }
-}
-
-// markerStore의 placeName이 변경되면 리뷰 가져오기
-watch(
-    () => markerStore.placeName,
-    async (newPlaceName) => {
-        console.log("선택된 장소:", newPlaceName); // 선택된 장소 확인
-        if (newPlaceName) {
-            await getReviewList(newPlaceName);
-        }
-    }
-);
+const userPredictionScore = ref("점수를 가져오는 중..."); // 초기값 설정
 
 const openModal1 = () => {
     modalOpen1.value = true;
@@ -201,33 +193,85 @@ const closeModal2 = () => {
 };
 const combinedKeyword = computed(() => {
     let keyword = "";
-    if (selectSido.value) keyword += sidoList.value.find((sido) => sido.sidoCode === selectSido.value)?.sidoName || "";
-    if (selectGungu.value) keyword += " " + gunguList.value.find((gungu) => gungu.gunguCode === selectGungu.value)?.gunguName || "";
-    if (selectDong.value) keyword += " " + dongList.value.find((dong) => dong.dongCode === selectDong.value)?.dongName || "";
+    if (selectSido.value)
+        keyword +=
+            sidoList.value.find((sido) => sido.sidoCode === selectSido.value)
+                ?.sidoName || "";
+    if (selectGungu.value)
+        keyword +=
+            " " +
+            gunguList.value.find((gungu) => gungu.gunguCode === selectGungu.value)
+                ?.gunguName || "";
+    if (selectDong.value)
+        keyword +=
+            " " +
+            dongList.value.find((dong) => dong.dongCode === selectDong.value)
+                ?.dongName || "";
     if (customKeyword.value) keyword += " " + customKeyword.value;
     return keyword.trim();
 });
 
-const onSearchClick = () => {
-    searchKeyword.value = combinedKeyword.value;
-    console.log("Search Clicked - Search Keyword:", searchKeyword.value);
+// 사용자가 선택한 장소에 대한 리뷰 가져오기
+async function getReviewList(placeName) {
+    try {
+        const response = await getReview(placeName);
+        console.log("테스트 중 " + response);
+        console.log("테스트 중 " + response.data);
+        console.log("테스트 중 " + response.data.value);
+        console.log(
+            "테스트 중 " + JSON.stringify(response.data.reviewList, null, 2)
+        );
+        if (response.status === httpStatusCode.OK) {
+            review.value = response.data.reviewList;
+        } else {
+            console.log("계획이 없음!!!!");
+        }
+    } catch (error) {
+        console.error("리뷰 데이터를 가져오는 중 오류 발생:", error);
+        if (error.response && error.response.status === httpStatusCode.UNAUTHORIZED) {
+            isValidToken.value = false;
+            await tokenRegenerate();
+        }
+    }
+}
+
+/**
+ * 사용자 예측 점수 가져오기
+ */
+ const fetchPredictionScore = async (placeName) => {
+  try {
+    const requestDto = {
+      userId: 1, // 사용자 아이디를 적절히 사용하도록 수정
+      placeName: placeName,
+    };
+
+    const response = await axios.post(
+      "https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/reviews/predict",
+      requestDto
+    );
+
+    userPredictionScore.value = `사용자님의 리뷰를 통해 예측한 예측 점수: ${response.data.predicted_rating}`;
+  } catch (error) {
+    console.error("예상 평점 가져오기 실패:", error);
+    userPredictionScore.value = "아직 충분한 리뷰 데이터가 없습니다.";
+  }
 };
 
+// markerStore.placeName이 변경될 때마다 getReviewList와 fetchPredictionScore 실행
+watch(
+    () => markerStore.placeName,
+    async (newPlaceName) => {
+        if (newPlaceName) {
+            await getReviewList(newPlaceName); // 리뷰 목록 가져오기
+            await fetchPredictionScore(newPlaceName); // 예측 점수 가져오기
+        } else {
+            console.warn("markerStore.placeName이 비어 있습니다.");
+        }
+    }
+);
+
 /**
- * Get Reviews
- *
- */
-import { useUserStore } from "@/stores/user";
-
-const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
-
-// const userIdx = userInfo.value.userIdx;
-
-
-
-/**
- * end of get Review
+ * 기타 로직 및 데이터 바인딩
  */
 
 // 시도 선택에 따라 군구 데이터 업데이트
@@ -324,6 +368,17 @@ const onGunguChange = () => {
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1);
 }
 
+#predictionBox {
+    position: absolute;
+    top: 350px; /* 검색 UI 바로 아래에 위치하도록 조정 */
+    left: 15px; /* 왼쪽 정렬을 검색 UI와 맞춤 */
+    width: 400px; /* 검색 UI와 동일한 너비 */
+    height: 150px; /* 높이는 적당히 설정 */
+    background-color: rgba(255, 255, 255);
+    padding: 20px;
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1);
+}
+
 #showList {
     position: absolute;
     top: 80px;
@@ -343,3 +398,4 @@ const onGunguChange = () => {
     color: dodgerblue;
 }
 </style>
+

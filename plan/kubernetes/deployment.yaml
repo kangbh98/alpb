@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: plan
-          image: "username/plan:latest"
+          image: "astro7875/plan:latest"
           ports:
             - containerPort: 8080
           readinessProbe:

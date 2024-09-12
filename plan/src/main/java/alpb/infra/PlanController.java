@@ -46,6 +46,7 @@ public class PlanController {
 
     @GetMapping("/{userIdx}")
     public ResponseEntity<Map<String, Object>> getPlan(@PathVariable int userIdx) {
+        System.out.println("들어옴");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
         try {

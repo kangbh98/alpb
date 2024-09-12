@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: diary
-          image: "username/diary:latest"
+          image: astro7875/diary:latest
           ports:
             - containerPort: 8080
           readinessProbe:

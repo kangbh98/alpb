@@ -76,7 +76,7 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-openai-key: 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
+openai-key: 
 api:
   url: 
     diary: localhost:8085 

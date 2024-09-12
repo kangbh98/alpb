@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 
-
 //<<< Clean Arch / Inbound Adaptor
 
 @RestController
@@ -30,17 +29,14 @@ public class ReviewController {
     ReviewRepository reviewRepository;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    private FlaskClient flaskClient;
 
-    @RequestMapping(
-        value = "/{id}//deletereview",
-        method = RequestMethod.PUT,
-        produces = "application/json;charset=UTF-8"
-    )
+    @RequestMapping(value = "/{id}//deletereview", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
     public Review deleteReview(
-        @PathVariable(value = "id") Long id,
-        HttpServletRequest request,
-        HttpServletResponse response
-    ) throws Exception {
+            @PathVariable(value = "id") Long id,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         System.out.println("##### /review/deleteReview  called #####");
         Optional<Review> optionalReview = reviewRepository.findById(id);
 
@@ -82,6 +78,13 @@ public class ReviewController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-}
-//>>> Clean Arch / Inbound Adaptor
 
+    // userId와 placeName을 요청 본문으로 받는 POST 엔드포인트
+    @PostMapping("/predict")
+    public Map<String, Object> postPrediction(@RequestBody RequestDto requestDto) {
+        // FlaskClient를 사용하여 요청 전송
+        Map<String, Object> response = flaskClient.sendRequest(requestDto.getUserId(), requestDto.getPlaceName());
+        return response;
+    }
+}
+// >>> Clean Arch / Inbound Adaptor
