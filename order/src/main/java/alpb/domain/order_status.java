@@ -1,5 +1,5 @@
 package alpb.domain;
 
 public enum order_status {
-    생성됨,삭제됨
+    주문진행중,주문실패
 }

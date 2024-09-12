@@ -13,5 +13,4 @@ public interface ReviewRepository
     extends PagingAndSortingRepository<Review, Long> {
 
     List<Review> findAllByPlaceName(String placeName);
-
-    void createReview(Review review);}
+}

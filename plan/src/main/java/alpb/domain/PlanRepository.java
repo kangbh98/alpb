@@ -12,5 +12,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface PlanRepository
     extends PagingAndSortingRepository<Plan, Long> {
     List<Plan> findAllByUserIdx(Integer userIdx); 
-    void createPlan(Plan plan);
     List<Plan> findAllByUserIdxAndDate(int userIdx, String date);}

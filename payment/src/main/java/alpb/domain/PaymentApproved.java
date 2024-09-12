@@ -12,6 +12,8 @@ import lombok.*;
 public class PaymentApproved extends AbstractEvent {
 
     private Long id;
+    private Long userId;
+    private Integer product;
 
     public PaymentApproved(Payment aggregate) {
         super(aggregate);

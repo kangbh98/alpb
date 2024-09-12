@@ -135,6 +135,7 @@ watch(
                 KT Trip
             </RouterLink>
             <button class="btn btn-sm" :class="props.action.color + ' mb-0 ms-auto d-lg-none d-block'" @click="logout">LOGOUT</button>
+            <RouterLink class="btn btn-sm mb-0 me-2" :class="props.action.color + ' mb-0 d-lg-none d-block'" :to="{ name: 'checkcredit' }">내 크레딧 보기</RouterLink>
             <button
                 class="navbar-toggler shadow-none ms-2"
                 type="button"
@@ -240,6 +241,11 @@ watch(
                             style="overflow-x: hidden"
                         >
                         </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav d-lg-block d-none">
+                    <li class="nav-item">
+                        <RouterLink class="btn btn-sm mb-0 me-2" :class="action.color" :to="{ name: 'checkcredit' }">내 크레딧 보기</RouterLink>
                     </li>
                 </ul>
                 <ul class="navbar-nav d-lg-block d-none">

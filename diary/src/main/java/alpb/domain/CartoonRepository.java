@@ -12,6 +12,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface CartoonRepository
     extends PagingAndSortingRepository<Cartoon, Long> {
 
-    void createDiary(Cartoon cartoon);
-
-    Cartoon findByUserIdxAndDateI(int userIdx, Date date);}
+    Cartoon findByUserIdxAndDate(Long userIdx, Date date);}

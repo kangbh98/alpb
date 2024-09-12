@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 //<<< Clean Arch / Inbound Adaptor
 
 @RestController
@@ -35,7 +34,7 @@ public class UserController {
     JWTUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User user){
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User user) {
 
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
@@ -58,36 +57,29 @@ public class UserController {
         } catch (Exception e) { // 기타 예외
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
-       }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-    }
-    
-    @GetMapping("/info/{userIdx}")
-    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("userIdx") Long userIdx, HttpServletRequest request) {
-        Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
-        if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
-            try {
-//				로그인 사용자 정보.
-                User user = userService.getUserByUserIdx(userIdx);
-                resultMap.put("userInfo", user);
-                status = HttpStatus.OK;
-            } catch (Exception e) {
-                resultMap.put("message", e.getMessage());
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
-            }
-        }
-        else {
-            status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    @GetMapping("/info/{userIdx}")
+    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("userIdx") Long userIdx,
+            HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+
+        // 로그인 사용자 정보.
+        User user = userService.getUserByUserIdx(userIdx);
+        resultMap.put("userInfo", user);
+        status = HttpStatus.OK;
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<?> deleteUser(User user){
+    public ResponseEntity<?> deleteUser(User user) {
         userService.deleteUser(user.getUserIdx());
         return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
     }
 
 }
-//>>> Clean Arch / Inbound Adaptor
+// >>> Clean Arch / Inbound Adaptor

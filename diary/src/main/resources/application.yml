@@ -27,9 +27,21 @@ spring:
 
 spring:
   profiles: default
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:file:./diary/testdb  # 파일 기반 H2 데이터베이스 경로
+    driver-class-name: org.h2.Driver
+    username: sa  # 기본 사용자 이름
+    password:     # 기본 비밀번호 (빈 값)
   jpa:
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.H2Dialect  # H2에 맞는 Hibernate Dialect 설정 추가
         show_sql: true
         format_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
@@ -64,8 +76,7 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
-openai-ke: asdf
-
+openai-key: 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
 api:
   url: 
     diary: localhost:8085 

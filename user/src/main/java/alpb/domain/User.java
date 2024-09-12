@@ -66,60 +66,24 @@ public class User {
 
     //<<< Clean Arch / Port Method
     public static void creditIncrease(PaymentApproved paymentApproved) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        User user = new User();
-        repository().save(user);
-
-        CreditIncreased creditIncreased = new CreditIncreased(user);
-        creditIncreased.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(paymentApproved.get???()).ifPresent(user->{
-            
-            user // do something
+           
+        User user = repository().findByUserIdx(paymentApproved.getUserId());
+        if (user != null) {
+            user.setCredit(user.getCredit() + paymentApproved.getProduct());
             repository().save(user);
-
-            CreditIncreased creditIncreased = new CreditIncreased(user);
-            creditIncreased.publishAfterCommit();
-
-         });
-        */
-
+        }
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     @Transactional
     public static void creditDecrease(DiaryCreated diaryCreated) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        User user = new User();
-        repository().save(user);
-
-        CreditDecreased creditDecreased = new CreditDecreased(user);
-        creditDecreased.publishAfterCommit();
-        */
-        User user = userRepository.findByUserIdx(userIdx);
+        User user = repository().findByUserIdx(diaryCreated.getUserIdx());
         if (user != null) {
             user.setCredit(user.getCredit() - 1);
-            userRepository.save(user);
+            repository().save(user);
         }
-
-        // User user = repository().findById(diaryCreated.getUserIdx())
-
-            
-        //     user.setCredit(user.getCredit()-1);
-        //     repository().saveUser(user);
-
-        //  });
-
     }
-    //>>> Clean Arch / Port Method
-
 }
-//>>> DDD / Aggregate Root
+

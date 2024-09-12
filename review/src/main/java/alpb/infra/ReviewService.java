@@ -2,9 +2,12 @@ package alpb.infra;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import alpb.domain.Review;
 import alpb.domain.ReviewRepository;
 
+@Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 

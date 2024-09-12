@@ -19,6 +19,10 @@ public class DiaryCreated extends AbstractEvent {
 
     public DiaryCreated(Cartoon aggregate) {
         super(aggregate);
+        this.date = aggregate.getDate();
+        this.userIdx = aggregate.getUserIdx();
+        this.imageUrl = aggregate.getImageUrl();
+        this.comment = aggregate.getComment();
     }
 
     public DiaryCreated() {

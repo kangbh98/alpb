@@ -90,23 +90,27 @@
             <div class="px-3">
                 <div class="border-bottom d-flex py-2 text-danger">
                     <div class="w-25">추천점수</div>
+                    <div>{{ review.total }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">교통요건</div>
+                    <div>{{ review.traffic }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">관광환경</div>
+                    <div>{{ review.travel }}</div>
                     <div></div>
                 </div>
                 <div class="border-bottom d-flex py-2">
                     <div class="text-secondary w-25">음식환경</div>
+                    <div>{{ review.food }}</div>
                     <div></div>
                 </div>
                 <div class="pt-2 text-secondary">종합의견</div>
                 <div class="py-2">
-                    <h6>Great place to trip I really Love this place</h6>
+                    <h6>Great place to trip </h6>
                 </div>5
             </div>
         </div>
@@ -143,6 +147,46 @@ const gunguList = ref([]);
 const dongList = ref([]);
 const markerStore = useMarkerStore();
 
+const review = ref({
+    reviewIdx: "",
+    writerIdx: "",
+    place: "",
+    comment: "",
+    total: 0,
+    traffic: 0,
+    travel: 0,
+    food: 0,
+    createdAt: "",
+    nickname: "",
+    profileImg: "",
+    value: "",
+});
+
+// 리뷰가져오는 함수
+import { getReview } from "@/api/review";
+async function getReviewList(placeName) {
+    try {
+        const response = await getReview(placeName);
+        if (response.status === 200) {
+            review.value = response.data.reviewList;
+        }
+        review.traffic = review.value[0]?.trafficScore;
+    } catch (error) {
+        console.error("리뷰 데이터를 가져오는 중 오류 발생:", error);
+    }
+}
+
+// markerStore의 placeName이 변경되면 리뷰 가져오기
+watch(
+    () => markerStore.placeName,
+    async (newPlaceName) => {
+        console.log("선택된 장소:", newPlaceName); // 선택된 장소 확인
+        if (newPlaceName) {
+            await getReviewList(newPlaceName);
+        }
+    }
+);
+
 const openModal1 = () => {
     modalOpen1.value = true;
 };
@@ -174,59 +218,13 @@ const onSearchClick = () => {
  *
  */
 import { useUserStore } from "@/stores/user";
-import { getReview } from "@/api/review";
 
 const userStore = useUserStore();
 const { userInfo } = storeToRefs(userStore);
 
 // const userIdx = userInfo.value.userIdx;
 
-const review = ref({
-    reviewIdx: "",
-    writerIdx: "",
-    place: "",
-    comment: "",
-    total: 0,
-    traffic: 0,
-    travel: 0,
-    food: 0,
-    createdAt: "",
-    nickname: "",
-    profileImg: "",
-});
 
-async function getReviewList(placeName) {
-    try {
-        const response = await getReview(placeName);
-        console.log("테스트 중 " + response);
-        console.log("테스트 중 " + response.data);
-        console.log("테스트 중 " + response.data.value);
-        console.log("테스트 중 " + JSON.stringify(response.data.reviewList, null, 2));
-        if (response.status === httpStatusCode.OK) {
-            review.value = response.data.reviewList;
-        } else {
-            console.log("계획이 없음!!!!");
-        }
-    } catch (error) {
-        console.error("리뷰 데이터를 가져오는 중 오류 발생:", error);
-        if (error.response && error.response.status === httpStatusCode.UNAUTHORIZED) {
-            isValidToken.value = false;
-            await tokenRegenerate();
-        }
-    }
-}
-
-// markerStore.placeName이 변경될 때마다 getReviewList 실행
-watch(
-    () => markerStore.placeName,
-    async (newPlaceName) => {
-        if (newPlaceName) {
-            await getReviewList(newPlaceName);
-        } else {
-            console.warn("markerStore.placeName이 비어 있습니다.");
-        }
-    }
-);
 
 /**
  * end of get Review

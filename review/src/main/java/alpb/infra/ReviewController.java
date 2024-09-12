@@ -54,6 +54,7 @@ public class ReviewController {
 
     @GetMapping("/{placeName}")
     public ResponseEntity<Map<String, Object>> getReview(@PathVariable String placeName) {
+        System.out.println("place 옴");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.OK;
         try {
@@ -83,3 +84,4 @@ public class ReviewController {
     }
 }
 //>>> Clean Arch / Inbound Adaptor
+

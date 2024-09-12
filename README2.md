@@ -18,17 +18,15 @@
 12. 사용자는 로그인/아웃을 할 수 있다.
 13. 회원은 크레딧을 주문하여 구매할 수 있다.
 14. 크레딧 주문을 하면 자동으로 결제가 진행된다.
-15. 크레딧 주문 이후 결제를 취소하여 주문을 취소할 수 있다.
-16. 결제가 완료되면 크레딧 개수가 증가한다.
+15. 결제가 완료되면 크레딧 개수가 증가한다.
+16. 결제가 취소되면 주문이 취소된다.
 17. 크레딧을 사용하면 크레딧 개수가 차감된다.
-18. 크레딧은 최초 구매 시점으로부터 1년 후에 만료된다.
-19. 사용자는 특정 장소에 대한 추천 점수를 확인할 수 있다.
+18. 사용자는 특정 장소에 대한 추천 점수를 확인할 수 있다.
 
 ### 비기능적 요구사항
 
 1. **트랜잭션**
-    1. 결제가 되지 않은 예약 건은 성립되지 않아야 한다.
-    2. 크레딧이 없으면 다이어리 생성이 불가해야 한다.
+    1. 크레딧이 없으면 다이어리 생성이 불가해야 한다.
 2. **장애격리**
     1. 계획, 다이어리, 주문 및 결제 기능은 각각 서로의 장애 여부와 무관하게 작동해야 한다.
 
@@ -36,72 +34,243 @@
 
 ### AS-IS 조직 (Horizontally-Aligned)
 
-![AS-IS 조직](https://github.com/astro30202/shop/issues/1#issue-2515493943)
+[![1-as-is.png](https://i.postimg.cc/wjKTFMS8/1-as-is.png)](https://postimg.cc/PP4j5XX2)
 
 ### TO-BE 조직 (Vertically-Aligned)
 
-![TO-BE 조직](https://github.com/astro30202/shop/issues/2#issue-2515495005)
+[![2-to-be.png](https://i.postimg.cc/WbsP4rL4/2-to-be.png)](https://postimg.cc/JtYF6shw)
 
 ### Event Storming 결과
 
 - **이벤트 도출**
     
-    ![이벤트 도출](https://github.com/astro30202/shop/issues/3#issue-2515495534)
+    [![3-event-stroming.png](https://i.postimg.cc/W4FBywr5/3-event-stroming.png)](https://postimg.cc/wtz4yJwN)
     
 - **부적격 이벤트 탈락**
     
-    ![부적격 이벤트 탈락](https://github.com/astro30202/shop/issues/4#issue-2515495850)
+    [![4-event-out.png](https://i.postimg.cc/59qZD0YW/4-event-out.png)](https://postimg.cc/BtbYKJBm)
     
 - **액터, 커멘드, 폴리시 푸착 및 정리**
     
-    ![액터, 커멘드, 폴리시 푸착 및 정리](https://github.com/astro30202/shop/issues/5#issue-2515497920)
+    [![5-actor-command-policy.png](https://i.postimg.cc/KjPQVJZh/5-actor-command-policy.png)](https://postimg.cc/m1rQ13zm)
     
 - **어그리게잇으로 묶기**
     
-    ![어그리게잇으로 묶기](https://github.com/astro30202/shop/issues/6#issue-2515498250)
+    [![6-aggregate.png](https://i.postimg.cc/J7ZTG4jY/6-aggregate.png)](https://postimg.cc/0r5G4vW7)
     
 - **바운디드 컨텍스트 묶기**
     
-    ![바운디드 컨텍스트 묶기](https://github.com/astro30202/shop/issues/7#issue-2515498519)
+    [![7-bounded-context.png](https://i.postimg.cc/HstB9ZZQ/7-bounded-context.png)](https://postimg.cc/SJJ6yrps)
     
 - **컨텍스트 매핑**
     
-    ![컨텍스트 매핑](https://github.com/astro30202/shop/issues/8#issue-2515498743)
+    [![8-mapping.png](https://i.postimg.cc/XYHLTZ0q/8-mapping.png)](https://postimg.cc/hXmVmtvR)
     
 - **완성된 1차 모형**
     
-    ![완성된 1차 모형](https://github.com/astro30202/shop/issues/9#issue-2515498996)
+    [![9-1st-model.png](https://i.postimg.cc/Bvjpsqqg/9-1st-model.png)](https://postimg.cc/GB1GxnT8)
     
-### 기능적/비기능적 요구사항 검증
+### 요구사항 검증
 
 - **기능적 요구사항 검증**
     1. 사용자는 카카오맵 기반으로 특정 장소의 정보(장소 기본 정보, 리뷰 등)를 조회할 수 있다. (O)
     2. 사용자는 특정 장소를 계획에 추가할 수 있다. (O)
     3. 사용자는 날짜 기준 계획을 삭제할 수 있다. (O)
     4. 사용자는 본인이 등록한 장소들을 계획 페이지를 통해 확인할 수 있다. (O)
-    5. 계획이 만들어지고 1크레딧을 사용하면 계획 기반 만화가 만들어진다. (O)
+    5. 계획이 만들어지고 1크레딧을 사용하면 계획 기반 만화가 만들어진다. (X)
     6. 크레딧이 없으면 만화 제작을 할 수 없다. (O)
     7. 사용자는 만들어진 만화를 삭제할 수 있다. (O)
-    8. 사용자는 계획 기반으로 만들어진 만화를 확인할 수 있다. (O)
+    8. 사용자는 계획 기반으로 만들어진 만화를 확인할 수 있다. (X)
     9. 사용자는 특정 장소에 대한 리뷰를 남길 수 있다. (O)
     10. 사용자는 이미 만든 리뷰를 수정/삭제할 수 있다. (O)
     11. 사용자는 회원가입을 할 수 있다. (O)
     12. 사용자는 로그인/아웃을 할 수 있다. (O)
     13. 회원은 크레딧을 주문하여 구매할 수 있다. (O)
     14. 크레딧 주문을 하면 자동으로 결제가 진행된다. (O)
-    15. 크레딧 주문 이후 결제를 취소하여 주문을 취소할 수 있다. (O)
-    16. 결제가 완료되면 크레딧 개수가 증가한다. (O)
+    15. 결제가 완료되면 크레딧 개수가 증가한다. (O)
+    16. 결제가 취소되면 주문이 취소된다. (O)
     17. 크레딧을 사용하면 크레딧 개수가 차감된다. (O)
-    18. 크레딧은 최초 구매 시점으로부터 1년 후에 만료된다.(X)
-    19. 사용자는 특정 장소에 대한 추천 점수를 확인할 수 있다.(X)
-
-- **비기능적 요구사항 검증**
-    1. **트랜잭션**
-        1. 결제가 되지 않은 예약 건은 성립되지 않아야 한다.
-        2. 크레딧이 없으면 다이어리 생성이 불가해야 한다.
-    2. **장애격리**
-        1. 계획, 다이어리, 주문 및 결제 기능은 각각 서로의 장애 여부와 무관하게 작동해야 한다.
+    18. 사용자는 특정 장소에 대한 추천 점수를 확인할 수 있다.(X)
 
 - **모델 수정 및 최종본**
     
-    ![모델 수정 및 최종본](https://github.com/astro30202/shop/issues/10#issue-2515499274)
+    [![10-final-model.png](https://i.postimg.cc/Y011X0tX/10-final-model.png)](https://postimg.cc/m1gzkbzM)
+
+## 구현
+
+### Saga&Compensation
+
+- Diary
+    - 다이어리 생성(Saga)
+        - 트랜젝션 흐름
+            - 다이어리 생성 시, 사용자 서비스로 이벤트를 넘김
+            - 크레딧 차감이 완료되면 전체 Saga가 완료됨
+                
+                [![1.png](https://i.postimg.cc/rss1Srjx/1.png)](https://postimg.cc/0KgKvrLy)
+                
+                [![2.png](https://i.postimg.cc/rz6DK0P8/2.png)](https://postimg.cc/n9kFWzx5)
+                
+- Payment
+    - 결제 성공(Saga)
+        - 트랜젝션 흐름
+            - 주문 이벤트 발생 시, 결제 서비스로 이벤트를 넘김
+            - 결제 성공 시, 사용자 서비스로 이벤트를 넘김
+            - 크레딧 지급이 완료되면 전체 Saga가 완료됨
+                
+                [![3.png](https://i.postimg.cc/xjXgJw47/3.png)](https://postimg.cc/4nTpjSZb)
+                
+                [![4.png](https://i.postimg.cc/zX0fsQJz/4.png)](https://postimg.cc/fJSZXBtp)
+                
+    - 결제 취소(Compensation)
+        - 결제 실패 시 주문이 취소되고, 안내 메시지와 구매 페이지 및 홈페이지로 이동할 수 있는 버튼이 포함된 모달을 표시함
+            - 현재 임의로 “주문 크레딧 개수 100개 초과 시 결제 취소” 조건을 설정해놓음
+            
+            [![5.png](https://i.postimg.cc/g272J6X1/5.png)](https://postimg.cc/214D9yxx)
+            
+            [![6.png](https://i.postimg.cc/j2Rs9Hmn/6.png)](https://postimg.cc/xJFDNz09)
+            
+            [![7.png](https://i.postimg.cc/8kbkvYfR/7.png)](https://postimg.cc/jCLr0ZX2)
+            
+- Prediction
+    - 모델 초기화: 추천 시스템 구현을 위해 surprise 패키지 사용
+        
+        ```python
+        def __init__(self, file_path):
+                self.load_data(file_path)
+                self.train_model()
+        ```
+        
+    - 데이터 로드: 유저-장소 평점 데이터 로드
+        
+        ```python
+         def load_data(self, file_path):
+                df = pd.read_csv(file_path)
+                reader = Reader(rating_scale=(0.5, 5))
+                self.data = Dataset.load_from_df(df[['userIdx', 'placeId', 'rating']], reader)
+        ```
+        
+    - 모델 학습: matrix factorization 방법으로 모델 학습
+        
+        ```python
+         def train_model(self):
+                trainset = self.data.build_full_trainset()
+                self.model = SVD()
+                self.model.fit(trainset)
+        ```
+        
+    - 평점 예측: 유저가 평가하지 않은 장소에 대한 평점 예측
+        
+        ```python
+         def predict_rating(self, user_idx, place_id):
+                prediction = self.model.predict(user_idx, place_id)
+                return prediction.est
+        ```
+        
+
+### Gateway
+
+1. gateway 스프링부트 App을 추가 후 application.yaml내에 각 마이크로 서비스의 routes 를 추가하고 gateway 서버의 포트를 8080 으로 설정함
+    1. 로그인 시 token을 지급하고, 이를 통해 인증 절차를 거침
+    
+    ```yaml
+    spring:
+      profiles: default
+      cloud:
+        gateway:
+    #<<< API Gateway / Routes
+          routes:
+            - id: user
+              uri: http://localhost:8082
+              predicates:
+                - Path=/users/**, 
+            - id: plan
+              uri: http://localhost:8083
+              predicates:
+                - Path=/plans/**, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: review
+              uri: http://localhost:8084
+              predicates:
+                - Path=/reviews/**, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: diary
+              uri: http://localhost:8085
+              predicates:
+                - Path=/cartoons/**, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: order
+              uri: http://localhost:8086
+              predicates:
+                - Path=/orders/**, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: payment
+              uri: http://localhost:8087
+              predicates:
+                - Path=/payments/**, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: read
+              uri: http://localhost:8088
+              predicates:
+                - Path=, 
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+            - id: frontend
+              uri: http://localhost:8080
+              predicates:
+                - Path=/**
+              filters:
+                  - JwtAuthenticationFilter  # JWT 검증을 위한 Custom GatewayFilter
+    #>>> API Gateway / Routes
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins:
+                  - "*"
+                allowedMethods:
+                  - "*"
+                allowedHeaders:
+                  - "*"
+                allowCredentials: true
+    
+    jwt:
+      salt: ssafy-screte-key-20240404-ssafy-screte-key-20240404-ssafy-screte-key-20240404
+      access-token:
+        expiretime: 20000
+      refresh-token:
+        expiretime: 40000
+    
+    server:
+      port: 8080
+    ```
+    
+### CQRS
+
+- 추가한 계획의 장소 이름, 주소, 전화번호, 다이어리 정보 등을 고객이 조회할 수 있도록 CQRS로 구현함
+- Plan, Diary의 개별 Aggregate Status 를 통합 조회하여 성능 Issue 를 사전에 예방할 수 있음
+- 비동기식으로 처리되어 발행된 이벤트 기반 Kafka 를 통해 수신/처리 되어 별도 Table 에 관리함
+- Plan
+    - Table Modeling
+        
+        [![1.png](https://i.postimg.cc/jdgsgJXC/1.png)](https://postimg.cc/GHDw9t61)
+        
+    - PlanViewHandler를 통해 구현함
+        
+        [![2.png](https://i.postimg.cc/FR4mdb9C/2.png)](https://postimg.cc/XZQttCB9)
+        
+        [![3.png](https://i.postimg.cc/wMxpF6Rh/3.png)](https://postimg.cc/MMLNpJDT)
+        
+- Diary
+    - Table Modeling
+        
+        [![4.png](https://i.postimg.cc/PfKhJ80K/4.png)](https://postimg.cc/PNL0FNX8)
+        
+    - DiaryViewHandler를 통해 구현함
+        
+        [![5.png](https://i.postimg.cc/bwSjmVrF/5.png)](https://postimg.cc/bZPMJTQQ)
+        
+        [![6.png](https://i.postimg.cc/qR4VMkL9/6.png)](https://postimg.cc/1gCYv1bH)

@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 @Table(name = "Order_table")
 @Data
-//<<< DDD / Aggregate Root
+// <<< DDD / Aggregate Root
 public class Order {
 
     @Id
@@ -28,10 +28,12 @@ public class Order {
 
     @PostPersist
     public void onPostPersist() {
-        //Following code causes dependency to external APIs
+        // Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
         OrderPlaced orderPlaced = new OrderPlaced(this);
+        orderPlaced.setUserId(this.userId);
+        orderPlaced.setOrderId(this.orderId);
+        orderPlaced.setProduct(this.product);
         orderPlaced.publishAfterCommit();
     }
 
@@ -43,34 +45,17 @@ public class Order {
 
     public static OrderRepository repository() {
         OrderRepository orderRepository = OrderApplication.applicationContext.getBean(
-            OrderRepository.class
-        );
+                OrderRepository.class);
         return orderRepository;
     }
 
-    //<<< Clean Arch / Port Method
+    // 보상처리 이벤트 수신 후, 주문 상태 주문 진행중에서 주문 실패로 변경
     public static void cancelOrder(PaymentCancelled paymentCancelled) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Order order = new Order();
-        repository().save(order);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(paymentCancelled.get???()).ifPresent(order->{
-            
-            order // do something
+        repository().findById(paymentCancelled.getId()).ifPresent(order -> {
+            order.setOrderStatus(order_status.주문실패);
             repository().save(order);
-
-
-         });
-        */
-
+        });
     }
-    //>>> Clean Arch / Port Method
-
 }
-//>>> DDD / Aggregate Root
+

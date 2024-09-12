@@ -1,5 +1,6 @@
 package alpb.infra;
 
+import java.time.Duration;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,18 @@ public class CartoonService {
     public String openAiImageUrl(String imageToRequest) {
         System.out.println(imageToRequest);
         System.out.println("OpenAI Key: " + OPENAI_KEY);
-        OpenAiService service = new OpenAiService(OPENAI_KEY);
-        CreateImageRequest build = CreateImageRequest.builder()
+        OpenAiService openAiService = new OpenAiService(OPENAI_KEY,Duration.ofSeconds(300));
+
+        CreateImageRequest createImageRequest = CreateImageRequest.builder()
                 .prompt(imageToRequest)
+                .model("dall-e-3")
+                .size("1024x1024")
                 .n(1)
-                .size("512x512")
                 .build();
 
-        return service.createImage(build)
-                .getData()
-                .get(0)
-                .getUrl();
+        return openAiService.createImage(createImageRequest).getData().get(0).getUrl();
+
+
     }
 
     public String makePrompt(String comment) {
@@ -46,10 +48,10 @@ public class CartoonService {
 
     
     public void createCartoon(Cartoon cartoon) {
-        cartoonRepository.createDiary(cartoon);
+        cartoonRepository.save(cartoon);
     }
 
-    public Cartoon getCartoon(int userIdx , Date date) {
-        return cartoonRepository.findByUserIdxAndDateI(userIdx, date);
+    public Cartoon getCartoon(Long userIdx , Date date) {
+        return cartoonRepository.findByUserIdxAndDate(userIdx, date);
     }
 }

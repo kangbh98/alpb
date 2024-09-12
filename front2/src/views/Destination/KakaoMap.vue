@@ -95,6 +95,7 @@ const onClickMapMarker = (markerItem: KakaoMapMarkerListItem): void => {
             category: details[2],
             placeName: details[3],
         });
+
         emits("placeName", details[3]);
     }
 };

@@ -58,7 +58,7 @@ export const useUserStore = defineStore("userStore", () => {
                     sessionStorage.setItem("userIdx", userInfo.value.userIdx);
                     Swal.fire({
                         icon: "success",
-                        title: `${userInfo.value.nickName}님 환영합니다.`,
+                        title: `${userInfo.value.nickname}님 환영합니다.`,
                         text: `KT Trip과 함께 즐거운 여행을 그려보세요.`,
                     });
                 } else {
@@ -66,7 +66,7 @@ export const useUserStore = defineStore("userStore", () => {
                 }
             },
             async (error) => {
-                console.error("g[토큰 만료되어 사용 불가능.] : ", error.response.status, error.response.statusText);
+                console.error("g[토큰 만료되어 사용 불가능.] : ");
                 isValidToken.value = false;
 
                 await tokenRegenerate();
@@ -116,7 +116,7 @@ export const useUserStore = defineStore("userStore", () => {
     const userLogout = async () => {
         Swal.fire({
             icon: "success",
-            title: `${userInfo.value.nickName}님 안녕히 가십시요.`,
+            title: `${userInfo.value.nickname}님 안녕히 가십시요.`,
             text: `KT Trip과 함께 즐거운 여행 되셨기를 바랍니다.`,
         });
         console.log("로그아웃 아이디 : " + userInfo.value.userIdx);

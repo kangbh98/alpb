@@ -1,4 +1,4 @@
-package alpb.domain;
+=package alpb.domain;
 
 import alpb.domain.*;
 import alpb.infra.AbstractEvent;

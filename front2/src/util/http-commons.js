@@ -36,7 +36,7 @@ function localAxios() {
             // 페이지가 새로고침되어 저장된 accessToken이 없어진 경우.
             // 토큰 자체가 만료되어 더 이상 진행할 수 없는 경우.
             console.log(status);
-            if (status == httpStatusCode.UNAUTHORIZED) {
+            if (status == 401) {
                 // 요청 상태 저장
                 const originalRequest = config;
 
@@ -59,7 +59,7 @@ function localAxios() {
                         return instance(originalRequest);
                     });
                 }
-            } else if (status == httpStatusCode.FORBIDDEN) {
+            } else if (status == 403) {
                 alert(error.response.data.message);
             }
 

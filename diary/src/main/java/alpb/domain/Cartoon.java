@@ -3,8 +3,10 @@ package alpb.domain;
 import alpb.DiaryApplication;
 import alpb.domain.DiaryCreated;
 import alpb.domain.DiaryDeleted;
+
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
@@ -23,6 +25,7 @@ public class Cartoon {
 
     private Long userIdx;
 
+    @Column(length = 1000)  // Length set to 1000 characters
     private String imageUrl;
 
     private String comment;
@@ -33,6 +36,10 @@ public class Cartoon {
     @PostPersist
     public void onPostPersist() {
         DiaryCreated diaryCreated = new DiaryCreated(this);
+        diaryCreated.setDate(this.date);
+        diaryCreated.setUserIdx(this.userIdx);
+        diaryCreated.setImageUrl(this.imageUrl);
+        diaryCreated.setComment(this.comment);
         diaryCreated.publishAfterCommit();
     }
 
@@ -84,8 +91,15 @@ public class Cartoon {
 
     }
 
-    public Cartoon(java.sql.Date date2, int userIdx2, String imageUrl2, String comment2) {
-        //TODO Auto-generated constructor stub
+    public Cartoon(Date date, Long userIdx, String imageUrl, String comment) {
+        System.out.println("지나침");
+        this.date = date;
+        this.userIdx = userIdx;
+        this.imageUrl = imageUrl;
+        this.comment = comment;
+    }
+
+    public Cartoon(){
     }
     //>>> Clean Arch / Port Method
 

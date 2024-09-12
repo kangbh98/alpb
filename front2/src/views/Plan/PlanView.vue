@@ -109,7 +109,7 @@ export default {
 
         async function fetchEvents() {
             try {
-                const response = await axios.get(`http://localhost:8080/plan/${userInfo.value.userIdx}`);
+                const response = await axios.get(`https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/plans/${userInfo.value.userIdx}`);
                 const plans = response.data.planinfo;
                 events.value = plans.map(plan => ({
                     title: `${plan.placeName} (${plan.category})`,
@@ -120,7 +120,7 @@ export default {
                 listOptions.value = { ...listOptions.value, events: events.value };
 
             } catch (error) {
-                console.error('Error fetching events:', error);
+                console.error('Error fetching events:');
             }
         }
 
@@ -128,7 +128,7 @@ export default {
             try {
                 console.log('Fetching diary data for date:', date); // 확인용 로그
                 console.log('User ID:', userInfo.value.userIdx); // 확인용 로그
-                const response = await axios.get(`http://localhost:8080/plan/get/diary`, {
+                const response = await axios.get(`https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/get/diary`, {
                     params: {
                         userIdx: userInfo.value.userIdx,
                         date: date
@@ -145,7 +145,7 @@ export default {
             Swal.fire({
                 icon: "info",
                 title: "이미지 생성",
-                text: "DALL-E를 활용해 다이어리를 생성 하시겠습니까?",
+                text: `DALL-E를 활용해 다이어리를 생성 하시겠습니까? Credit이 한 개 감소합니다. 현재 남은 크레딧 갯수: ${userInfo.value.credit}`,
                 showCancelButton: true,
                 confirmButtonText: "예",
                 cancelButtonText: "아니오",
@@ -190,26 +190,34 @@ export default {
         async function postComment(userIdx, date, comment) {
             Swal.fire({
                 title: '로딩 중...',
-                text: `${userInfo.value.nickName}님의 다이어리를 만드는 중이에요.`,
+                text: `${userInfo.value.nickname}님의 다이어리를 만드는 중이에요.`,
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
                 }
             });
             try {
-                const response = await axios.post('http://localhost:8080/plan/create/diary', null, {
-                    params: {
+                // POST 요청의 data로 데이터를 전송하고 Content-Type을 명시적으로 설정
+                const response = await axios.post(
+                    'https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/create/diary',
+                    {
                         userIdx: userIdx,
                         date: date,
                         comment: comment
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
-                });
+                );
+
                 Swal.close(); // 로딩 스피너를 닫습니다.
                 if (response.status === 200) {
                     Swal.fire({
                         icon: 'success',
                         title: '다이어리 제작 완료',
-                        text: `KT Trip이 ${userInfo.value.nickName}님의 다이어리를 완성했습니다.`,
+                        text: `KT Trip이 ${userInfo.value.nickname}님의 다이어리를 완성했습니다.`,
                     });
                 } else {
                     throw new Error('코멘트 제출 실패');

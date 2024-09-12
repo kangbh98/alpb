@@ -24,21 +24,23 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
-            String token = exchange.getRequest().getHeaders().getFirst("Authorization");
+            return chain.filter(exchange);
+        //     String token = exchange.getRequest().getHeaders().getFirst("Authorization");
 
-            return Mono.just(token)
-                .flatMap(tkn -> {
-                    // jwtUtil.checkToken(tkn) 넣기
-                    if (1==1) {
-                        return chain.filter(exchange); // 토큰 유효
-                    } else {
-                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                        return exchange.getResponse().setComplete(); // 토큰 무효
-                    }
-                }).switchIfEmpty(Mono.defer(() -> {
-                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    return exchange.getResponse().setComplete(); // 헤더 누락
-                }));
-        };
-    }
+        //     return Mono.just(token)
+        //         .flatMap(tkn -> {
+        //             // jwtUtil.checkToken(tkn) 넣기
+        //             if (1==1) {
+        //                 return chain.filter(exchange); // 토큰 유효
+        //             } else {
+        //                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        //                 return exchange.getResponse().setComplete(); // 토큰 무효
+        //             }
+        //         }).switchIfEmpty(Mono.defer(() -> {
+        //             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        //             return exchange.getResponse().setComplete(); // 헤더 누락
+        //         }));
+        // };
+    };
+}
 }

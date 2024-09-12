@@ -10,4 +10,6 @@ import lombok.*;
 public class PaymentApproved extends AbstractEvent {
 
     private Long id;
+    private Long userId;
+    private Integer product;
 }

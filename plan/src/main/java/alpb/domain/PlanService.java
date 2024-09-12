@@ -14,7 +14,7 @@ public class PlanService {
     }
 
     public void createPlan(Plan plan){
-        planRepository.createPlan(plan);
+        planRepository.save(plan);
     }
 
     public List<Plan> getPlan(int userIdx) {
