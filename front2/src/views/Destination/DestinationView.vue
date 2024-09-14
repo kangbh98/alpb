@@ -172,7 +172,7 @@ const selectDong = ref("");
 const sidoList = ref([
     { sidoCode: "01", sidoName: "서울" },
     { sidoCode: "02", sidoName: "부산" },
-    { sidoCode: "03", sidoName: "대구" },
+    { sidoCode: "03", sidoName: "제주도" },
 ]);
 const gunguList = ref([]);
 const dongList = ref([]);
@@ -378,6 +378,8 @@ const onGunguChange = () => {
     padding: 20px;
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1);
 }
+
+
 
 #showList {
     position: absolute;

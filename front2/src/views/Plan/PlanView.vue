@@ -205,15 +205,24 @@ export default {
                     Swal.showLoading();
                 }
             });
+
             try {
-                const response = await axios.post('https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/create/diary', null, {
-                    params: {
-                        userIdx: userIdx,
+                const response = await axios.post(
+                    'https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/cartoons/create/diary',
+                    {
+                        userIdx: userIdx, // 요청 본문에 데이터 설정
                         date: date,
                         comment: comment
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json' // Content-Type 헤더를 JSON으로 설정
+                        }
                     }
-                });
+                );
+
                 Swal.close(); // 로딩 스피너를 닫습니다.
+
                 if (response.status === 200) {
                     Swal.fire({
                         icon: 'success',

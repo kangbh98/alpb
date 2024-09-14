@@ -90,10 +90,10 @@ function makeTrip() {
                             <h1>행복하게</h1>
                         </div>
                             <p class="lead mb-4 text-white opacity-8" style="margin-top: 60px;">
-                                KT 관광통합데이터를 기반으로 여행을 계획하세요! <br> 생성한 여행 계획과 여행 후기를 기반으로, AI가 나만의 여행기를 만화로 그려줘요.
+                                사용자 리뷰와 AI를 기반으로 여행을 계획하세요! <br> 생성한 여행 계획과 여행 후기를 기반으로, AI가 나만의 여행기를 만화로 그려줘요.
                             </p>
 
-                        <a class="btn bg-white text-dark" @click="makeTrip">여행 계획하기 </a>
+                        <a class="btn bg-white texdark" @click="makeTrip">여행 계획하기 </a>
                     </div>
                 </div>
             </div>

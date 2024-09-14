@@ -42,6 +42,13 @@ async function sendOrderRequest() {
     userId: userId, // 토큰에서 추출한 userId 사용
   };
 
+    // 크레딧 개수가 100개를 초과할 경우 결제 취소
+    if (creditCount.value > 100) {
+    paymentFailed.value = true; // 결제 취소 모달 표시
+    isProcessingPayment.value = false; // 결제 중 모달 닫기
+    return; // 더 이상 주문을 진행하지 않음
+  }
+
   try {
     const response = await axios.post('https://8080-kangbh98-alpb-83f38oajbmf.ws-us116.gitpod.io/orders', orderData); // 정확한 서버 URL 사용
     if (response.status === 201) { // 201: Created

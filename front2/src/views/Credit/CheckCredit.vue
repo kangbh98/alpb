@@ -58,50 +58,63 @@ function goToOrderCredit() {
 </script>
 
 <template>
-    <div class="container position-sticky z-index-sticky top-0">
-        <div class="row">
-            <div class="col-12">
-                <!-- DefaultNavbar 컴포넌트 사용 -->
-                <DefaultNavbar style="height: 70px; background-color: white; border-radius: 10px;" />
-            </div>
-        </div>
+  <div class="container-fluid d-flex flex-column justify-content-between vh-100">
+    <div class="row">
+      <div class="col-12">
+        <!-- DefaultNavbar 컴포넌트 사용 -->
+        <DefaultNavbar style="height: 70px; background-color: white; border-radius: 10px;" />
+      </div>
     </div>
-    <section class="py-2">
-        <!-- 본문 가운데 정렬 -->
-        <div class="container d-flex justify-content-center align-items-center">
-            <div class="row justify-content-center align-items-center">
-                <!-- 크레딧 정보 카드 -->
-                <div class="col-lg-10 d-flex flex-column align-items-center" style="width: 400px;">
-                    <div class="row justify-content-center">
-                        <!-- 크레딧 정보 카드 -->
-                        <DefaultInfoCard
-                            class="text-center mx-auto"
-                            color="info"
-                            icon="payments"
-                            title="My Credits"
-                            :description="`현재 보유 크레딧: ${creditCount}개`"
-                            style="white-space: nowrap;"
-                        />
-                    </div>
-                    <div class="row justify-content-center mt-4">
-                        <!-- 크레딧 구매 페이지로 이동하는 버튼 -->
-                        <DefaultInfoCard
-                            class="text-center mx-auto"
-                            color="success"
-                            icon="add_circle"
-                            title="Need More Credits?"
-                            description="크레딧이 필요하시면 아래 버튼을 눌러주세요."
-                            style="white-space: nowrap;"
-                        />
-                        <button
-                            class="btn btn-success mt-3 mx-auto"
-                            @click="goToOrderCredit"
-                        >
-                            크레딧 구매하기
-                        </button>
-                    </div>
-                </div>
+    <section class="d-flex flex-grow-1 align-items-center justify-content-center">
+      <!-- 본문 가운데 정렬 -->
+      <div class="container d-flex justify-content-center align-items-center">
+        <div class="row justify-content-center align-items-center">
+          <!-- 크레딧 정보 카드 -->
+          <div class="col-lg-10 d-flex flex-column align-items-center">
+            <div class="row justify-content-center">
+              <!-- 크레딧 정보 카드 -->
+              <DefaultInfoCard
+                class="text-center mx-auto"
+                color="info"
+                icon="payments"
+                title="My Credits"
+                :description="`현재 보유 크레딧: ${creditCount}개`"
+                style="white-space: nowrap;"
+              />
             </div>
+            <div class="row justify-content-center mt-4">
+              <!-- 크레딧 구매 페이지로 이동하는 버튼 -->
+              <DefaultInfoCard
+                class="text-center mx-auto"
+                color="success"
+                icon="add_circle"
+                title="Need More Credits?"
+                description="크레딧이 필요하시면 아래 버튼을 눌러주세요."
+                style="white-space: nowrap;"
+              />
+              <button
+                class="btn btn-success mt-3 mx-auto"
+                @click="goToOrderCredit"
+              >
+                크레딧 구매하기
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
+  </div>
 </template>
+
+<style scoped>
+.container {
+  max-width: 960px;
+}
+.vh-100 {
+  height: 100vh;
+}
+.flex-grow-1 {
+  flex-grow: 1;
+}
+</style>
+

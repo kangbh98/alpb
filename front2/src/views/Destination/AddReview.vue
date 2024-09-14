@@ -79,7 +79,7 @@ function submitReview() {
     Swal.fire({
         icon: "success",
         title: `리뷰 추가 성공`,
-        text: `${userInfo.value.nickName}님 다른 사용자들을 위한 소중한 리뷰 감사합니다`,
+        text: `${userInfo.value.nickname}님 다른 사용자들을 위한 소중한 리뷰 감사합니다`,
     });
     emit("close");
 }
